@@ -20,8 +20,6 @@ func createScanOptions(request *http.Request) ([]store.ScanOption, error) {
 	opts := []store.ScanOption{}
 	params := request.URL.Query()
 
-	log.Printf("%v", params)
-
 	floatFields := []string{"depth"}
 	floats := map[string]float32{}
 
