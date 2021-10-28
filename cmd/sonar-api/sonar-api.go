@@ -1,7 +1,18 @@
 package main
 
-import "log"
+import (
+	"flag"
+	"log"
+	"sonar/pkg/csvstore"
+)
 
 func main() {
-	log.Printf("hi")
+	csvStore := flag.String("csv-store", "", "path to the CSV file.")
+
+	flag.Parse()
+
+	_, err := csvstore.CreateMemoryStoreFromFile(*csvStore)
+	if err != nil {
+		log.Fatalf("failed to parse sonar data from CSV file: %s", err)
+	}
 }
