@@ -3,7 +3,9 @@ package main
 import (
 	"flag"
 	"log"
+	"net/http"
 	"sonar/pkg/csvstore"
+	"sonar/pkg/restapi"
 )
 
 func main() {
@@ -11,8 +13,13 @@ func main() {
 
 	flag.Parse()
 
-	_, err := csvstore.CreateMemoryStoreFromFile(*csvStore)
+	storage, err := csvstore.CreateMemoryStoreFromFile(*csvStore)
 	if err != nil {
 		log.Fatalf("failed to parse sonar data from CSV file: %s", err)
 	}
+
+	handler := restapi.Handler{ReadScanner: storage}
+	http.Handle("/records", handler)
+
+	log.Fatalln(http.ListenAndServe("0.0.0.0:6000", nil))
 }

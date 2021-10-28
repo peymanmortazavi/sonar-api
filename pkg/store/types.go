@@ -58,3 +58,9 @@ type Reader interface {
 type Scanner interface {
 	Scan(...ScanOption) (Cursor, error)
 }
+
+// ReadScanner describes a type that is both capable of returning records and querying them.
+type ReadScanner interface {
+	Reader
+	Scanner
+}
